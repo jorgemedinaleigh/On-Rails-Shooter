@@ -11,10 +11,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float positionYawFactor;
     [SerializeField] float controlRollFactor;
 
+    [SerializeField] GameObject laser;
+
     float horizontalThrow;
     float verticalThrow;
 
-    void Start()
+    void Start() 
     {
         
     }
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         ProcessMovement();
         ProcessRotation();
+        ProcessFire();
     }
 
     private void ProcessRotation()
@@ -51,5 +54,19 @@ public class PlayerController : MonoBehaviour
         float clampedYPos = Mathf.Clamp(newYPos, -yRange, yRange);
 
         transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
+    }
+
+    private void ProcessFire()
+    {
+        if(Input.GetButton("Fire1"))
+        {       
+            var emissionModule = laser.GetComponent<ParticleSystem>().emission;     
+            emissionModule.enabled = true;
+        }
+        else
+        {
+            var emissionModule = laser.GetComponent<ParticleSystem>().emission;
+            emissionModule.enabled = false;
+        }
     }
 }
